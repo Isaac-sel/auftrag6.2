@@ -17,10 +17,11 @@ spec:
     spec:
       containers:
       - name: html-openshift-app
+      - resources: {}
+      ports:
+        - containerPort: 8080
+          protocol: TCP
         image: >-
           image-registry.openshift-image-registry.svc:5000/zlic-iselvabala1/html-openshift-app:latest
         imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-        resources: {}
+        

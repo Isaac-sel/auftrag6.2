@@ -1,0 +1,43 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: html-openshift-app
+  labels:
+    app: html-openshift-app
+    app.kubernetes.io/part-of: html-openshift-app
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'html-openshift-app:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'nginx:1.20-ubi7'
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/Isaac-sel/auftrag6.2.git'
+    contextDir: /app
+    sourceSecret:
+      name: html-openshift-app-github
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: html-openshift-app-generic-webhook
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+  runPolicy: Serial
+
+oc set triggers deploy/html-openshift-app --from-image=html-openshift-app:latest -c html-openshift-app
+  
