@@ -39,5 +39,4 @@ spec:
     - type: ConfigChange
   runPolicy: Serial
 
-oc set triggers deploy/html-openshift-app --from-image=html-openshift-app:latest -c html-openshift-app
   
